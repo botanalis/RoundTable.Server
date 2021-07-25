@@ -1,0 +1,4 @@
+/RoundTable.Server/*.db
+/.idea
+/RoundTable.Server/bin
+/RoundTable.Server/obj
