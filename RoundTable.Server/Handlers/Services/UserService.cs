@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RoundTable.Server.Data.Model;
-using RoundTable.Server.Data.Repositories;
+using RoundTable.Server.Handlers.Repositories;
 using RoundTable.Server.Models;
 
 namespace RoundTable.Server.Handlers.Services

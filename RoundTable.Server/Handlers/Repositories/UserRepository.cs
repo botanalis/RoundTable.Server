@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RoundTable.Server.Data;
 using RoundTable.Server.Data.Model;
 
-namespace RoundTable.Server.Data.Repositories
+namespace RoundTable.Server.Handlers.Repositories
 {
     public class UserRepository : IUserRepository
     {

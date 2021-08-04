@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RoundTable.Server.Data.Model;
 
-namespace RoundTable.Server.Data.Repositories
+namespace RoundTable.Server.Handlers.Repositories
 {
     public interface IUserRepository
     {

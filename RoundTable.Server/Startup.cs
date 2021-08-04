@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RoundTable.Server.Data;
-using RoundTable.Server.Data.Repositories;
+using RoundTable.Server.Handlers.Repositories;
 using RoundTable.Server.Handlers.Services;
 using RoundTable.Server.Middlewares;
 using RoundTable.Server.Models;
