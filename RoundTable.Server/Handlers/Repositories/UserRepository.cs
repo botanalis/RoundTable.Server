@@ -2,6 +2,7 @@
 using System.Linq;
 using RoundTable.Server.Data;
 using RoundTable.Server.Data.Model;
+using RoundTable.Server.Interfaces.Repositories;
 
 namespace RoundTable.Server.Handlers.Repositories
 {

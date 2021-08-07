@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RoundTable.Server.Handlers.Services;
+using RoundTable.Server.Handlers.Utils;
+using RoundTable.Server.Interfaces.Services;
+using RoundTable.Server.Interfaces.Utils;
 using RoundTable.Server.Models;
 
 namespace RoundTable.Server.Middlewares
@@ -22,42 +25,24 @@ namespace RoundTable.Server.Middlewares
             _options = options.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService)
+        public async Task Invoke(HttpContext context, IUserService userService, IJwtOption jwtOption)
         {
             var token = context.Request.Headers["Authorization"]
                 .FirstOrDefault()?
                 .Split(" ")
                 .Last();
 
-            if (token != null)
+            var userId = jwtOption.ValidateJwtToken(token);
+
+            if (userId != null)
             {
-                this.attachUserToContext(context, userService, token);
+                context.Items["User"] = userService.GetById(userId.Value);
             }
 
             await _next(context);
 
         }
 
-        private void attachUserToContext(HttpContext context, IUserService userService, string token)
-        {
-            try
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_options.Secret);
-                tokenHandler.ValidateToken(token, new TokenValidationParameters()
-                {
-                    
-                }, out SecurityToken validatedToken);
-
-                var jwtToken = (JwtSecurityToken) validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-
-                context.Items["User"] = userService.GetById(userId);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
+        
     }
 }

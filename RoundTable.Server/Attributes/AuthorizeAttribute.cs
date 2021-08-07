@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,6 +12,13 @@ namespace RoundTable.Server.Attributes
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+
+            var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+            if (allowAnonymous)
+            {
+                return;
+            }
+            
             var user = (UserInfo) context.HttpContext.Items["User"];
             if (user == null)
             {

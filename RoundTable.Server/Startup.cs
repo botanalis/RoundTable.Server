@@ -13,8 +13,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RoundTable.Server.Data;
+using RoundTable.Server.Handlers;
 using RoundTable.Server.Handlers.Repositories;
 using RoundTable.Server.Handlers.Services;
+using RoundTable.Server.Handlers.Utils;
+using RoundTable.Server.Interfaces.Handlers;
+using RoundTable.Server.Interfaces.Repositories;
+using RoundTable.Server.Interfaces.Services;
+using RoundTable.Server.Interfaces.Utils;
 using RoundTable.Server.Middlewares;
 using RoundTable.Server.Models;
 
@@ -59,6 +65,8 @@ namespace RoundTable.Server
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IJwtOption, JwtInfo>();
+            services.AddScoped<IUserHandle, UserHandle>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
