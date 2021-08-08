@@ -9,6 +9,20 @@ namespace RoundTable.Server.Interfaces.Handlers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        LoginReult Authenticate(LoginUser model);
+        AuthResult Authenticate(LoginUserReqVm model);
+
+        /// <summary>
+        /// Refresh Token
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        AuthResult RefreshToken(UserInfo user, string refreshToken);
+
+        /// <summary>
+        /// 移除授權
+        /// </summary>
+        /// <param name="user"></param>
+        void RemoveAuthenticate(UserInfo user);
     }
 }

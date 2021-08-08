@@ -1,4 +1,6 @@
-﻿using RoundTable.Server.Data.Model;
+﻿using System;
+using RoundTable.Server.Data.Model;
+using RoundTable.Server.Models;
 
 namespace RoundTable.Server.Interfaces.Utils
 {
@@ -7,9 +9,11 @@ namespace RoundTable.Server.Interfaces.Utils
         /// <summary>
         /// 產生 JWT Token
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">使用者</param>
+        /// <param name="refreshToken">Refresh Token</param>
+        /// <param name="expires">有效期限</param>
         /// <returns></returns>
-        string GenerateJwtToken(User user);
+        string GenerateJwtToken(UserInfo user, string refreshToken, DateTime? expires);
         
         
         /// <summary>
@@ -17,7 +21,12 @@ namespace RoundTable.Server.Interfaces.Utils
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        int? ValidateJwtToken(string token);
-        
+        JwtTokenInfo ValidateJwtToken(string token);
+
+        /// <summary>
+        /// 產生 Refresh Token
+        /// </summary>
+        /// <returns></returns>
+        string GenerateRefreshToken();
     }
 }

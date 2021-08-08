@@ -65,6 +65,7 @@ namespace RoundTable.Server
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
             services.AddScoped<IJwtOption, JwtInfo>();
             services.AddScoped<IUserHandle, UserHandle>();
         }

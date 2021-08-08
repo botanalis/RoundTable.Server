@@ -15,5 +15,10 @@ namespace RoundTable.Server.Controllers
         {
             return (UserInfo)this.HttpContext?.Items["User"];
         }
+
+        protected string GetOptUserRefreshToken()
+        {
+            return (string)this.HttpContext?.Items["RefreshToken"];
+        }
     }
 }

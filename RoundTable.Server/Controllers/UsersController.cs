@@ -26,7 +26,7 @@ namespace RoundTable.Server.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(LoginUser model)
+        public IActionResult Login(LoginUserReqVm model)
         {
             var result = this._userHandle.Authenticate(model);
 
@@ -34,20 +34,42 @@ namespace RoundTable.Server.Controllers
             {
                 return BadRequest(new {message = "Account or Password is Error"});
             }
+            
+            return Ok(new LoginResultResVm(result.UserInfo, result.JwtToken));
+        }
+        
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            var user = this.GetOptUser();
 
-            return Ok(result);
+            this._userHandle.RemoveAuthenticate(user);
+            
+
+            return Ok();
         }
 
         /// <summary>
         /// Refresh Token
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost]
+        [HttpGet]
         public IActionResult RefreshToken()
         {
             var user = this.GetOptUser();
-            return Ok();
+            var refreshToken = this.GetOptUserRefreshToken();
+
+            var result = this._userHandle.RefreshToken(user, refreshToken);
+
+            if (result == null)
+            {
+                Response.Cookies.Delete("refreshToken");
+                return BadRequest(new { message = "Refresh Token is invalid" });
+            }
+            
+            
+            return Ok(new LoginResultResVm(result.UserInfo, result.JwtToken));
         }
 
     }

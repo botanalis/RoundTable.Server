@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -20,14 +21,19 @@ namespace RoundTable.Server.Handlers.Utils
             _options = options.Value;
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(UserInfo user, string refreshToken, DateTime? expires)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_options.Secret);
             var tokenDescriptior = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(new[] {new Claim("id", user.Id.ToString())}),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Subject = new ClaimsIdentity(
+                    new[]
+                    {
+                        new Claim("id", user.Id.ToString()),
+                        new Claim("refreshToken", refreshToken)
+                    }),
+                Expires = expires ?? DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
 
@@ -35,7 +41,7 @@ namespace RoundTable.Server.Handlers.Utils
             return tokenHandler.WriteToken(token);
         }
 
-        public int? ValidateJwtToken(string token)
+        public JwtTokenInfo ValidateJwtToken(string token)
         {
             if (token == null)
             {
@@ -58,15 +64,31 @@ namespace RoundTable.Server.Handlers.Utils
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken) validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                return userId;
+                return new JwtTokenInfo()
+                {
+                    UserId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value),
+                    RefreshToken = jwtToken.Claims.First(x => x.Type == "refreshToken").Value
+                };
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return null;
             }
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var randomBytes = new byte[64];
+
+            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                rngCryptoServiceProvider.GetBytes(randomBytes);
+            }
+            
+            return Convert.ToBase64String(randomBytes);
         }
     }
 }

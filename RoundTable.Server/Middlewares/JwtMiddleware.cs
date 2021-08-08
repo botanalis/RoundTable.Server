@@ -32,11 +32,12 @@ namespace RoundTable.Server.Middlewares
                 .Split(" ")
                 .Last();
 
-            var userId = jwtOption.ValidateJwtToken(token);
+            var jwtTokenInfo = jwtOption.ValidateJwtToken(token);
 
-            if (userId != null)
+            if (jwtTokenInfo != null)
             {
-                context.Items["User"] = userService.GetById(userId.Value);
+                context.Items["User"] = userService.GetById(jwtTokenInfo.UserId);
+                context.Items["RefreshToken"] = jwtTokenInfo.RefreshToken;
             }
 
             await _next(context);
