@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoundTable.Server", "RoundTable.Server\RoundTable.Server.csproj", "{9ECFA0D1-55B5-410F-9C8E-4B07FFB490B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterDI", "RegisterDI\RegisterDI.csproj", "{4E27EB12-AE2B-4C48-895F-6C3B2BC8E196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{9ECFA0D1-55B5-410F-9C8E-4B07FFB490B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ECFA0D1-55B5-410F-9C8E-4B07FFB490B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ECFA0D1-55B5-410F-9C8E-4B07FFB490B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E27EB12-AE2B-4C48-895F-6C3B2BC8E196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E27EB12-AE2B-4C48-895F-6C3B2BC8E196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E27EB12-AE2B-4C48-895F-6C3B2BC8E196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E27EB12-AE2B-4C48-895F-6C3B2BC8E196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

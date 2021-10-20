@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Transactions;
+using Microsoft.Extensions.DependencyInjection;
+using RegisterDI.Attributes;
 using RoundTable.Server.Interfaces.Handlers;
 using RoundTable.Server.Interfaces.Services;
 using RoundTable.Server.Interfaces.Utils;
@@ -7,6 +9,7 @@ using RoundTable.Server.Models;
 
 namespace RoundTable.Server.Handlers
 {
+    [RegisterWithLifetime(ServiceLifetime.Scoped)]
     public class UserHandle : IUserHandle
     {
         private readonly IUserService _userService;

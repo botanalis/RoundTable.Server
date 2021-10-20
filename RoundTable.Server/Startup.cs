@@ -1,26 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RegisterDI;
 using RoundTable.Server.Data;
-using RoundTable.Server.Handlers;
-using RoundTable.Server.Handlers.Repositories;
-using RoundTable.Server.Handlers.Services;
-using RoundTable.Server.Handlers.Utils;
-using RoundTable.Server.Interfaces.Handlers;
-using RoundTable.Server.Interfaces.Repositories;
-using RoundTable.Server.Interfaces.Services;
-using RoundTable.Server.Interfaces.Utils;
 using RoundTable.Server.Middlewares;
 using RoundTable.Server.Models;
 
@@ -58,16 +46,16 @@ namespace RoundTable.Server
             });
             
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "RoundTable.Server", Version = "v1"});
             });
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
-            services.AddScoped<IJwtOption, JwtInfo>();
-            services.AddScoped<IUserHandle, UserHandle>();
+            services.RegisterAssemblyPublicGenericClass()
+                .Where(x => x.Namespace.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.Handlers"))
+                .AsPublicImplementedInterfaces();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
